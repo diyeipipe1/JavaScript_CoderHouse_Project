@@ -24,7 +24,9 @@ function crearProductos(){
             let productosDiv = document.getElementById("productos")
             productosDiv.appendChild(producto)
             
-            alert("Producto agregado correctamente!")
+            alert(`Producto agregado correctamente! \n 
+                   Nombre: ${nombre} \n
+                   Precio: ${precio}`)
         } else {
             alert("Ingresa ambos datos")
         }
