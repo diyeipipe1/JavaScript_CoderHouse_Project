@@ -1,3 +1,43 @@
+// Segunda entrega con prompt, alert, y declaración de funciones/objetos/variables
+function crearProductos(){
+    let confirmacionAgregarObjs = confirm("¿Quieres agregar productos?")
+
+    while (confirmacionAgregarObjs) {
+        let nombre = prompt("Nombre del producto")
+        let precioInput = prompt("Precio del producto")
+
+        if (nombre && precioInput){
+            precio = parseFloat(precioInput)
+            if (isNaN(precio)){
+                let deNuevo = confirm("Tipo de dato de precio incorrecto, ¿Quiere intentar de nuevo?")
+                if (deNuevo){
+                    continue
+                }
+                break
+            }
+
+            let producto = document.createElement("div")
+            producto.className = "panel"
+            producto.onclick = () => {actualizarTablero(precio, nombre)}
+            producto.innerHTML = `${nombre}<br>$${precio}`
+
+            let productosDiv = document.getElementById("productos")
+            productosDiv.appendChild(producto)
+            
+            alert("Producto agregado correctamente!")
+        }
+
+        confirmacionAgregarObjs = confirm("¿Quieres agregar productos?")
+    } 
+}
+
+crearProductos();
+
+
+
+
+// -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  
+
 // Esta variable tendrá el precio total
 let precioTotal = 0;
 
