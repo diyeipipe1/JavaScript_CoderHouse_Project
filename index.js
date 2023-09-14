@@ -25,6 +25,8 @@ function crearProductos(){
             productosDiv.appendChild(producto)
             
             alert("Producto agregado correctamente!")
+        } else {
+            alert("Ingresa ambos datos")
         }
 
         confirmacionAgregarObjs = confirm("¿Quieres agregar productos?")
