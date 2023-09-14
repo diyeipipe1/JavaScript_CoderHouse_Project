@@ -1,0 +1,13 @@
+.panel {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+  }
+  #total {
+    font-weight: bold;
+    margin-top: 20px;
+  }
