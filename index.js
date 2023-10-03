@@ -1,46 +1,89 @@
-// Segunda entrega con prompt, alert, y declaración de funciones/objetos/variables
-function crearProductos(){
-    let confirmacionAgregarObjs = confirm("¿Quieres agregar productos?")
+// Tercera entrega puntos que faltaban
+// Cambiar prompts y alerts por DOM 
+// Notificar en HTML success o failure
+// Almacenar datos en el storega
 
-    while (confirmacionAgregarObjs) {
-        let nombre = prompt("Nombre del producto")
-        let precioInput = prompt("Precio del producto")
 
-        if (nombre && precioInput){
-            precio = parseFloat(precioInput)
-            if (isNaN(precio)){
-                let deNuevo = confirm("Tipo de dato de precio incorrecto, ¿Quiere intentar de nuevo?")
-                if (deNuevo){
-                    continue
-                }
-                break
+// Función para crear productos una vez activado el botón
+function formularioProducto(){
+    const divCrearProducto = document.getElementById("crearProductoDiv")
+
+    // div para los errores
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-mensaje";
+    divCrearProducto.appendChild(errorDiv);
+
+    divCrearProducto.innerHTML = `
+    <h2>Agregar producto</h2>
+    <form id="agregarProductoForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" step="0.01" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    ` 
+
+    const form = document.getElementById("agregarProductoForm")
+
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const nombreInput = document.getElementById("nombre")
+        const precioInput = document.getElementById("precio")
+
+        const nombre = nombreInput.value;
+        const precio = parseFloat(precioInput.value);
+
+        if (nombre && !isNaN(precio)) {
+            crearProducto(nombre, precio)
+
+            let productosArray = localStorage.getItem("productosAgregados")
+
+            if (productosArray){
+                productosArray = JSON.parse(productosArray)
+                productosArray.push({nombre: nombre, precio: precio})
+            }else {
+                productosArray = [{nombre: nombre, precio: precio}]
             }
 
-            let producto = document.createElement("div")
-            producto.className = "panel"
-            producto.onclick = () => {actualizarTablero(precio, nombre)}
-            producto.innerHTML = `${nombre}<br>$${precio}`
-
-            let productosDiv = document.getElementById("productos")
-            productosDiv.appendChild(producto)
-            
-            alert(`Producto agregado correctamente! \n 
-                   Nombre: ${nombre} \n
-                   Precio: ${precio}`)
-        } else {
-            alert("Ingresa ambos datos")
+            localStorage.setItem("productosAgregados", JSON.stringify(productosArray))
+            errorDiv.textContent = "";
+        }else{
+            errorDiv.textContent = "Campos no ingresados correctamente";
         }
-
-        confirmacionAgregarObjs = confirm("¿Quieres agregar productos?")
-    } 
+    })
 }
 
-crearProductos();
+// Función para crear productos en el HTML
+function crearProducto(nombre, precio){
+    let producto = document.createElement("div")
+    producto.className = "panel"
+    producto.onclick = () => {actualizarTablero(precio, nombre)}
+    producto.innerHTML = `${nombre}<br>$${precio}`
+
+    let productosDiv = document.getElementById("productos")
+    productosDiv.appendChild(producto)
+}
+
+// Función para cargar los productos de localStorage si hay
+function cargarProductos() {
+    let productosArray = localStorage.getItem("productosAgregados")
+
+    if (productosArray){
+        productosArray = JSON.parse(productosArray)
+        console.log(productosArray)
+        productosArray.forEach(prod => {
+            crearProducto(prod.nombre, prod.precio)
+        });
+    }
+}
 
 
-
-
-// -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  // -- // --  
+// Se cargan productos de localStorage
+cargarProductos();
 
 // Esta variable tendrá el precio total
 let precioTotal = 0;
