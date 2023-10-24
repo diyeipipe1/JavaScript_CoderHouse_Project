@@ -1,0 +1,13 @@
+{
+    "products": [
+        {
+           "name": "Producto Cargado 1", 
+           "price": 9.98
+        },
+        {
+            "name": "Producto Cargado 2", 
+            "price": 5.46
+         }
+    ],
+    "product_count": 2
+}

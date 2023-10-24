@@ -1,8 +1,8 @@
-// Tercera entrega puntos que faltaban
-// Cambiar prompts y alerts por DOM 
-// Notificar en HTML success o failure
-// Almacenar datos en el storega
-
+// Ultima entrega puntos que faltaban
+// Librerias (Para carga de datos)
+// Cargar Datos
+// Async 
+// -- // -- // -- // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
 // Función para crear productos una vez activado el botón
 function formularioProducto(){
@@ -81,9 +81,26 @@ function cargarProductos() {
     }
 }
 
+// Función para cargar los productos de JSON si hay
+async function cargarProductosPreloaded() {
+    try {
+        let data = await fetch("productos.json")
+        let dataConverted = await data.json()
+        console.log(dataConverted)
+
+        let productosArray = dataConverted.products
+        productosArray.forEach(prod => {
+            crearProducto(prod.name, prod.price)
+        });
+    } catch (err) {
+        console.log("Error parsing JSON ", err.message)
+    }
+}
+
 
 // Se cargan productos de localStorage
 cargarProductos();
+cargarProductosPreloaded();
 
 // Esta variable tendrá el precio total
 let precioTotal = 0;
@@ -129,7 +146,7 @@ function actualizaProductoMayorPrecio(precio, nombre) {
 
     let precioMax = 0
     let nombreMax = ""
-    for (prod of prods) {
+    for (let prod of prods) {
         if (precioMax < prod.precio){
             precioMax = prod.precio
             nombreMax = prod.nombre
